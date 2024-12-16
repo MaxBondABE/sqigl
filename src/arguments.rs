@@ -204,5 +204,5 @@ pub enum MigrationCommands {
         /// The directory in which the new project's root directory will be created.
         #[arg(default_value = ".")]
         project: PathBuf,
-    }
+    },
 }
