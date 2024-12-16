@@ -17,8 +17,8 @@ not ready for production use.
 
 # Documentation
 
-- [Here](https://maxbondabe.github.io/sqigl)
-- [Quickstart](https://maxbondabe.github.io/sqigl/getting-started/quickstart)
+- [Here](https://maxbondabe.github.io/)
+- [Quickstart](https://maxbondabe.github.io/getting-started/quickstart)
 
 # Installation
 
