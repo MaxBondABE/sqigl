@@ -18,7 +18,6 @@ not ready for production use.
 # Documentation
 
 - [Here](https://maxbondabe.github.io/)
-- [Quickstart](https://maxbondabe.github.io/getting-started/quickstart)
 
 # Installation
 
