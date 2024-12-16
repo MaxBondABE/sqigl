@@ -1,0 +1,45 @@
+{% set ops = load_data(path="content/concepts/compat.toml") %}
+
+<figure class="compat">
+    <section>
+        <h1>
+            Operation
+        </h1>
+        <h1>
+            Compatability
+        </h1>
+    </section>
+    {% for op in ops.operations %}
+        <section>
+            <h1>
+                {{ op.title }}
+            </h1>
+            <article> 
+                <div class="patch"><h1>Patch</h1></div>
+                <div class="minor"><h1>Minor</h1></div>
+                <div class="major"><h1>Major</h1></div>
+                <ul class="patch">
+                    {% if op.patch %}
+                        {% for i in op.patch %}
+                            <li>{{ i }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <ul class="minor">
+                    {% if op.minor %}
+                        {% for i in op.minor %}
+                            <li>{{ i }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <ul class="major">
+                    {% if op.major %}
+                        {% for i in op.major %}
+                            <li>{{ i }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </article>
+        </section>
+    {% endfor %}
+</figure>

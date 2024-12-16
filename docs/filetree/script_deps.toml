@@ -1,0 +1,48 @@
+[[items]]
+path = "sqigl.toml"
+lang = "toml"
+content = """
+[project]
+version = "0.1.0"
+title = "my_project"
+
+[database]
+db = "postgres"
+"""
+
+[[items]]
+path = "artifacts/"
+
+[[items]]
+path = "src/"
+
+[[items]]
+path="src/sqigl.toml"
+checked=true
+lang="toml"
+content="""
+[[scripts]]
+script = "posts.sql"
+dependencies = ["users.sql"] # This is a list, so we can specify multiple dependencies
+                             # (eg ["foo.sql", "bar.sql"])
+"""
+
+[[items]]
+path = "src/users.sql"
+lang = "sql"
+content = """
+create table users (
+    pk integer primary key auto increment,
+    username text unique not null,
+    password text not null
+);
+"""
+[[items]]
+path = "src/posts.sql"
+lang = "sql"
+content = """
+create table posts (
+    pk integer primary key auto increment,
+    user integer not null primary key users(pk)
+);
+"""

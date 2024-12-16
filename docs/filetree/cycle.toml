@@ -1,0 +1,66 @@
+[[items]]
+path = "sqigl.toml"
+lang = "toml"
+content = """
+[project]
+version = "0.1.0"
+title = "my_project"
+
+[database]
+db = "postgres" # will be "sqlite" if you're using sqlite
+"""
+
+[[items]]
+path = "artifacts/"
+
+[[items]]
+path = "src/"
+
+[[items]]
+path="src/sqigl.toml"
+checked=true
+lang="toml"
+content="""
+[[scripts]]
+script = "foo.sql"
+dependencies = ["bar.sql"]
+
+[[scripts]]
+script = "bar.sql"
+dependencies = ["baz.sql"]
+
+[[scripts]]
+script = "baz.sql"
+dependencies = ["foo.sql"] # Because baz.sql is a dependency of foo,
+                           # this creates a cycle.
+"""
+
+[[items]]
+path = "src/foo.sql"
+lang = "sql"
+content = """
+create table foo(
+    pk integer not null primary key auto increment,
+    bar integer references bar(pk)
+);
+"""
+
+[[items]]
+path = "src/bar.sql"
+lang = "sql"
+content = """
+create table bar(
+    pk integer not null primary key auto increment,
+    baz integer references baz(pk)
+);
+"""
+
+[[items]]
+path = "src/baz.sql"
+lang = "sql"
+content = """
+create table baz(
+    pk integer not null primary key auto increment,
+    foo integer references foo(pk)
+);
+"""

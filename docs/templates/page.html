@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+{% set section=get_section(path=page.ancestors | last) %}
+
+<nav class="right">
+    <aside>
+        <label class="toc_label material" tabindex=1>
+            toc
+            <input type="radio" name="toc" class="invisible" id="toc_ctrl"/>
+        </label>
+        <label class="toc_label material" tabindex=1>
+            close
+            <input type="radio" name="toc" class="invisible" checked/>
+        </label>
+    </aside>
+    <aside>
+        <a href="/" class="material" tabindex=5>
+            home
+        </a>
+        <a href="https://github.com/maxbondabe/sqigl" tabindex=5>
+            <img src="/gh.svg" />
+        </a>
+    </aside>
+    <aside>
+        {% if page.lower %}
+            <a href={{ page.lower.permalink }} class="material" tabindex=2>
+                arrow_back
+            </a>
+        {% else %}
+            <p class="placeholder"></p>
+        {% endif %}
+        <a href={{ section.permalink }} class="material" tabindex=3>
+            arrow_upward
+        </a>
+        {% if page.higher %}
+            <a href={{ page.higher.permalink }} class="material" tabindex=4>
+                arrow_forward
+            </a>
+        {% else %}
+            <p class="placeholder"></p>
+        {% endif %}
+    </aside>
+</nav>
+
+<nav class="toc">
+    <h1>Contents</h1>
+    {% for header in page.toc %}
+        <a href={{ header.permalink }}>
+            {{ header.title }}
+        </a>
+    {% endfor %}
+</nav>
+
+<main class="page">
+    {{ "# " ~ page.title | markdown | safe }}
+    <article>
+        {{ page.content | safe }}
+    </article>
+    <hr />
+    <footer>
+        <p class="material">
+            arrow_back
+        </p>
+        <p class="material">
+            arrow_upward
+        </p>
+        <p class="material">
+            arrow_forward
+        </p>
+        <aside>
+            {% if page.lower %}
+                <a href={{ page.lower.permalink }}>
+                    {{ page.lower.title | markdown | safe }}
+                </a>
+            {% endif %}
+        </aside>
+
+        <aside>
+            <a href={{ section.permalink }}>
+                {{ section.title }}
+            </a>
+        </aside>
+
+        <aside>
+            {% if page.higher %}
+                <a href={{ page.higher.permalink }}>
+                    {{ page.higher.title | markdown | safe }}
+                </a>
+            {% endif %}
+        </aside>
+    </footer>
+</main>
+
+{% endblock %}

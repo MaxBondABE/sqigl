@@ -1,0 +1,57 @@
+[[items]]
+path = "sqigl.toml"
+lang = "toml"
+content = """
+[project]
+version = "0.1.0"
+title = "my_project"
+
+[database]
+db = "postgres" # will be "sqlite" if you're using sqlite
+"""
+
+[[items]]
+path = "src/"
+
+[[items]]
+path = "src/users.sql"
+lang = "sql"
+content = """
+create table users (
+    pk integer primary key auto increment,
+    username text unique not null,
+    password text not null
+);
+"""
+
+[[items]]
+path = "artifacts/"
+
+[[items]]
+path = "artifacts/0.1.0/"
+
+[[items]]
+path = "artifacts/0.1.0/sqigl.toml"
+lang = "toml"
+checked = true
+content = """
+[[migrations]]
+script = "schema.sql"
+from = "=0.0.0"
+to = "0.1.0"
+"""
+
+[[items]]
+path = "artifacts/0.1.0/schema.sql"
+lang = "sql"
+content = """
+-- [ my_project 0.1.0 ]
+
+-- [ users.sql ]
+
+create table users (
+    pk integer primary key auto increment,
+    username text unique not null,
+    password text not null
+);
+"""

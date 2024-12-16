@@ -1,0 +1,138 @@
+.filetree {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1.5em 1fr;
+    grid-template-areas:
+        "paths_title content_title"
+        "paths content";
+
+    .paths_title {
+        grid-area: paths_title;
+        border-bottom: 1px solid black;
+        padding-left: calc(1em + 3px);
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .content_title {
+        grid-area: content_title;
+        border-bottom: 1px solid black;
+        padding-left: 1em;
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    nav {
+        grid-area: paths;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        margin-top: 0.25em;
+    }
+
+    @media (max-width: 60rem) {
+        font-size: 0.75em;
+
+        nav label {
+            font-size: 0.5em;
+        }
+    }
+
+    @media (max-width: 80rem) {
+        font-size: 0.8em;
+
+        nav label {
+            font-size: 0.75rem;
+        }
+    }
+
+    p, pre {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    label {
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-left: 3px;
+    }
+    label:hover {
+        text-decoration: underline;
+        border-left: 3px solid #c0c0c0;
+        margin-left: 0;
+    }
+
+    label:has(input:checked) {
+        font-weight: bold;
+        border-left: 3px solid black;
+        margin-left: 0;
+    }
+
+    section {
+        grid-area: content;
+
+        article {
+            display: none;
+            flex-shrink: 0;
+            height: fit-content;
+            margin-left: 0.5em;
+            margin-top: 0.5em;
+
+        }
+    }
+}
+
+.filetree nav:has(label:nth-child(1) input:checked) ~ section article:nth-child(1)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(2) input:checked) ~ section article:nth-child(2)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(3) input:checked) ~ section article:nth-child(3)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(4) input:checked) ~ section article:nth-child(4)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(5) input:checked) ~ section article:nth-child(5)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(6) input:checked) ~ section article:nth-child(6)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(7) input:checked) ~ section article:nth-child(7)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(8) input:checked) ~ section article:nth-child(8)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(9) input:checked) ~ section article:nth-child(9)  {
+    display: block;
+}
+
+.filetree nav:has(label:nth-child(1) input:checked) ~ section article:nth-child(10)  {
+    display: block;
+}
+
+
+.labels_vertical {
+    grid-area: paths;
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1em;
+}

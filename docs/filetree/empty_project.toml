@@ -1,0 +1,18 @@
+[[items]]
+path = "sqigl.toml"
+lang = "toml"
+checked = true
+content = """
+[project]
+version = "0.1.0"
+title = "my_project"
+
+[database]
+db = "postgres" # will be "sqlite" if you're using sqlite
+"""
+
+[[items]]
+path = "src/"
+
+[[items]]
+path = "artifacts/"

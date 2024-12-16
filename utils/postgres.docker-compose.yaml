@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: "postgres:15.2-bullseye"
+    environment:
+      POSTGRES_USER: "sqigl"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "sqigl"
+    ports:
+        - "5432:5432"

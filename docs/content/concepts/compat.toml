@@ -1,0 +1,53 @@
+[[operations]]
+title = "Tables"
+weight=0
+minor = [
+    "Creating a new table",
+    "Adding a new column",
+    "Changing the default of an existing column",
+    "Removing an existing constraint"
+]
+major = [
+    "Dropping a table",
+    "Renaming a table",
+    "Adding a new constraint to an existing column",
+    "Removing a column",
+    "Renaming a column",
+    "Changing a column's type",
+]
+
+[[operations]]
+title = "Views"
+
+[[operations]]
+title = "Stored procedures"
+patch = [
+    "Replacing an existing stored procedure without changing the type signature"
+]
+minor = [
+    "Creating a new stored procedure"
+]
+major = [
+    "Deleting a stored procedure",
+    "Renaming a stored procedure",
+    "Changing the type signature of a stored procedure",
+]
+
+[[operations]]
+title = "Access"
+minor = [
+    "Creating a new user or role",
+    "Granting new permissions to an existing user or role",
+]
+major = [
+    "Deleting an existing user or role",
+    "Revoking permissions for an existing user or role",
+]
+
+[[operations]]
+title = "Rows"
+patch = [
+    "Inserting a row",
+    "Updating a row",
+    "Deleting a row",
+]

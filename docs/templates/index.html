@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<nav class="right">
+    <aside>
+        <a href="https://github.com/maxbondabe/sqigl" tabindex=5>
+            <img src="/gh.svg" />
+        </a>
+    </aside>
+</nav>
+
+<main class="index">
+    <h1><code>sqigl</code> Documentation</h1>
+
+    <h1>Write SQL fluently</h1>
+    <ul>
+        <li>
+            <code>sqigl</code> (pronounced "squiggle") is a <a href="https://en.wikipedia.org/wiki/Build_automation">build tool</a> for SQL.
+        </li>
+        <li>
+            Traditional tools constrain you to writing SQL as a linear series of migrations.
+        </li>
+        <li>
+            <code>sqigl</code> allow you to write SQL like you would any other language - as a file tree organized by topic.
+        </li>
+    </ul>
+
+    {% for sect_path in section.subsections %}
+        {% set sect = get_section(path=sect_path) %}
+        <h1>{{ sect.title }}</h1>
+        <section>
+            {% for page in sect.pages %}
+                <article>
+                    <a href="{{ page.permalink }}">
+                            {{ "## " ~ page.title | markdown | safe }}
+                    </a>
+                    <p>{{ page.extra.desc | markdown | safe }}</p>
+                </article>
+            {% endfor %}
+        </section>
+        {% endfor %}
+</main>
+
+{% endblock %}

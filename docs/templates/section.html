@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+<nav class="right">
+    <aside>
+        <a href="/" class="material">
+            home
+        </a>
+        <a href="https://github.com/maxbondabe/sqigl" tabindex=5>
+            <img src="/gh.svg" />
+        </a>
+    </aside>
+</nav>
+
+<main class="index">
+    <h1>{{ section.title }}</h1>
+
+    {% for page in section.pages %}
+        <section>
+            <article>
+                <a href="{{ page.permalink }}">
+                        {{ "## " ~ page.title | markdown | safe }}
+                </a>
+                <p>{{ page.extra.desc | markdown | safe }}</p>
+            </article>
+        </section>
+    {% endfor %}
+</main>
+
+{% endblock %}

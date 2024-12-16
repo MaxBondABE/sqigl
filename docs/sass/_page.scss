@@ -1,0 +1,128 @@
+body:has(.page) {
+    display: grid;
+    grid-template-columns: [toc] 15vw [content] 1fr;
+
+    .page {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+
+    aside {
+        display: flex;
+        flex-direction: row;
+    }
+    aside * {
+        margin: auto;
+    }
+    img {
+        width: 0.8em;
+        height: 0.8em;
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+    }
+    .placeholder {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        padding: 0;
+    }
+
+    @media(max-width: 80rem) {
+        aside:nth-child(3) {
+            display: none;
+        }
+    }
+}
+
+.toc_label {
+    font-size: 1.5rem;
+}
+
+.toc_label:has(input:checked) {
+    display: none;
+}
+
+nav:has(#toc_ctrl:checked) ~ .toc {
+    display: flex;
+}
+
+nav:has(#toc_ctrl:checked) ~ main {
+    grid-column: content;
+}
+
+.toc {
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    width: 15vw;
+    display: none;
+    flex-direction: column;
+    margin-top: 4rem;
+    font-size: 0.75em;
+    padding-left: 1em;
+
+    h1 {
+        font-size: 1em;
+        text-decoration: underline;
+    }
+    a {
+        text-decoration: none;
+        color: black;
+        margin-bottom: 1em;
+    }
+}
+
+@media(max-width: 80rem) {
+    .toc {
+        position: static;
+        padding-left: 0;
+        width: auto;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        margin: auto;
+        font-size: 1em;
+    }
+
+    nav:has(#toc_ctrl:checked) ~ main {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+}
+
+
+@media(min-width: 100rem) {
+    .toc {
+        font-size: 1em;
+    }
+}
+
+footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: [title] 1em [content] 1fr;
+    align-items: baseline;
+    margin-bottom: 1em;
+
+    * {
+        justify-self: center;
+    }
+    p {
+        grid-row: title;
+        margin: 0;
+        padding: 0;
+    }
+    aside {
+        grid-row: content;
+    }
+}

@@ -1,0 +1,42 @@
+[[items]]
+path = "sqigl.toml"
+lang = "toml"
+content = """
+[project]
+version = "0.1.0"
+title = "my_project"
+
+[database]
+db = "postgres"
+"""
+
+[[items]]
+path = "artifacts/"
+
+[[items]]
+path = "src/"
+
+[[items]]
+path = "src/users.sql"
+lang = "sql"
+checked = true
+content = """
+create table users (
+    pk integer primary key auto increment,
+    username text unique not null,
+    password text not null
+);
+"""
+
+[[items]]
+path = "src/resources/"
+
+[[items]]
+path = "src/resources/posts.sql"
+lang = "sql"
+content = """
+create table posts (
+    pk integer primary key auto increment,
+    user integer not null primary key users(pk)
+);
+"""

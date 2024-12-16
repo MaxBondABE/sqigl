@@ -1,0 +1,90 @@
+@font-face {
+  font-family: 'material';
+  font-style: normal;
+  font-weight: 100;
+  src: url('material.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'noto-serif';
+  font-style: normal;
+  font-weight: 400;
+  src: url('noto-serif.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'noto-serif-italic';
+  font-style: italic;
+  font-weight: 400;
+  src: url('noto-italic-serif.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'newsreader';
+  font-style: normal;
+  font-weight: 400;
+  src: url('newsreader.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'newsreader-italic';
+  font-style: italic;
+  font-weight: 250;
+  src: url('newsreader-italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'roboto-mono';
+  font-style: italic;
+  font-weight: 400;
+  src: url('roboto-mono.ttf') format('truetype');
+}
+
+* {
+    font-family: noto-serif,noto-italic-serif,serif;
+}
+
+.material {
+    font-family: material;
+    text-decoration: none;
+    color: black;
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: newsreader,newsreader-italic,sans-serif;
+    code {
+        // Monospace font looks bigger
+        font-size: 0.8em;
+    }
+}
+
+code {
+    font-family: roboto-mono,monospace;
+
+    * {
+        font-family: inherit;
+    }
+}
+
+pre {
+    // Syntax-highlighted code blocks
+    padding: 1em;
+    border-radius: 5px;
+    overflow: scroll;
+}
+
+article > pre {
+    // Article children to distinguish from code example shortcode
+    margin: 1em;
+}
+
+ul {
+    list-style-type: "- ";
+}
+
+.italics {
+    font-style: italic;
+}
+

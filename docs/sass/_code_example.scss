@@ -1,0 +1,54 @@
+@mixin selected {
+    font-weight: bold;
+    border-bottom: 3px solid black;
+}
+@mixin unselected {
+    border-bottom: none;
+}
+@mixin hover {
+    border-bottom: 3px solid #d0d0d0;
+}
+
+.code_example {
+    aside {
+        display: none;
+    }
+}
+
+.code_example > [type="radio"]:nth-of-type(1):checked {
+    ~ .labels > label.postgres_example {
+        @include selected;
+    }
+    ~ .labels > label.postgres_example:hover {
+        @include selected;
+    }
+    ~ aside.postgres_example {
+        display: block;
+    }
+
+    ~ .labels > label.sqlite_example {
+        @include unselected;
+    }
+    ~ .labels > label.sqlite_example:hover {
+        @include hover;
+    }
+}
+
+.code_example > [type="radio"]:nth-of-type(2):checked {
+    ~ .labels > label.postgres_example {
+        @include unselected;
+    }
+    ~ .labels > label.postgres_example:hover {
+        @include hover;
+    }
+
+    ~ .labels > label.sqlite_example {
+        @include selected;
+    }
+    ~ .labels > label.sqlite_example:hover {
+        @include selected;
+    }
+    ~ aside.sqlite_example {
+        display: block;
+    }
+}

@@ -1,0 +1,57 @@
+{% set tree = load_data(path=path) %}
+{% set group = "filetree_" ~ nth %}
+
+<figure class="filetree">
+    <div class="paths_title"><p>File</p></div>
+    <div class="content_title"><p>Content</p></div>
+
+    {% set first_checked = tree.items | filter(attribute="checked", value=true) | length == 0 %}
+    <nav>
+        {% for item in tree.items %}
+            {% set id = group ~ "_input_" ~ loop.index %}
+            {% set depth = item.path | trim_end_matches(pat="/") | split(pat="/") | length %}
+            {% set checked = item | get(key="checked", default=false) or (loop.first and first_checked) %}
+           <label
+               style="padding-left: {{ 2 * (depth - 1) + 1 }}em"
+            >
+                {% set dir = item.path is ending_with("/") %}
+                {% set name = item.path | trim_end_matches(pat="/") | split(pat="/") | last %}
+                {{ name }}{% if dir %}/{% endif %}
+                <input
+                    class="invisible"
+                    id="{{ id }}"
+                    type="radio"
+                    name="{{ group }}"
+                    {% if checked %} checked {% endif %}
+                />
+            </label>
+        {% endfor %}
+    </nav>
+
+    <section>
+    {% for item in tree.items %}
+        {% set dir = item.path is ending_with("/") %}
+        {% set depth = item.path | trim_end_matches(pat="/") | split(pat="/") | length %}
+        <article>
+                {# Workarounds; syntax highlighting will only work if backticks are on their own lines,
+                   and Tera does not allow \n, except in join(). #}
+
+                {% if item.content %}
+                    {% set lang = item | get(key="lang", default="") %}
+                    {% set content = item | get(key="content", default="") | trim %}
+                    {% set code = [
+                        "```" ~ lang,
+                        content,
+                        "```"
+                    ] %}
+
+                    {{ code | join(sep="\n") | markdown | safe }}
+                {% elif dir %}
+                    <p class="italics">Directory</p>
+                {% else %}
+                    <p class="italics">Empty</p>
+                {% endif %}
+        </article>
+    {% endfor %}
+    </section>
+</figure>

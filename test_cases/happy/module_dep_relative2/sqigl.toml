@@ -1,0 +1,6 @@
+[project]
+title = "module_dep_relative2"
+version = "0.0.1"
+
+[database]
+db = "sqlite"

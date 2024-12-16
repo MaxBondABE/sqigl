@@ -1,0 +1,6 @@
+[project]
+title = "empty"
+version = "0.0.1"
+
+[database]
+db = "sqlite"

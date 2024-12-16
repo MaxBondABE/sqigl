@@ -1,0 +1,18 @@
+{% set group = "code_example_" ~ nth %}
+{% set id_pg = "code_example_" ~ nth ~ "_pg" %}
+{% set id_sqlite = "code_example_" ~ nth ~ "_sqlite" %}
+
+<figure class="tabbed code_example">
+    <input id="{{ id_pg }}" type="radio" class="invisible" name="{{ group }}" checked />
+    <input id="{{ id_sqlite }}" type="radio" class="invisible" name="{{ group }}" />
+    <div class="labels">
+        <label for="{{ id_pg }}" class="postgres_example" >Postgres</label>
+        <label for="{{ id_sqlite }}" class="sqlite_example" >SQLite</label>
+    </div>
+    <aside class="postgres_example">
+        {{ postgres | markdown | safe }}
+    </aside>
+    <aside class="sqlite_example">
+        {{ sqlite | markdown | safe }}
+    </aside>
+</figure>

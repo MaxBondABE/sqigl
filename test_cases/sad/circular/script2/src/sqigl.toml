@@ -1,0 +1,11 @@
+[[scripts]]
+script = "a.sql"
+dependencies = ["b.sql"]
+
+[[scripts]]
+script = "b.sql"
+dependencies = ["c.sql"]
+
+[[scripts]]
+script = "c.sql"
+dependencies = ["a.sql"]

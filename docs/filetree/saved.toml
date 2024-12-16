@@ -1,0 +1,83 @@
+[[items]]
+path = "sqigl.toml"
+lang = "toml"
+content = """
+[project]
+version = "0.2.0-my-feature"
+title = "my_project"
+
+[database]
+db = "postgres"
+"""
+
+[[items]]
+path = "src/"
+
+[[items]]
+path="src/sqigl.toml"
+lang="toml"
+content="""
+[[scripts]]
+script = "posts.sql"
+dependencies = ["users.sql"]
+"""
+
+[[items]]
+path = "src/users.sql"
+lang = "sql"
+content = """
+create table users (
+    pk integer primary key auto increment,
+    username text unique not null,
+    password text not null
+);
+"""
+
+[[items]]
+path = "src/posts.sql"
+lang = "sql"
+content = """
+create table posts (
+    pk integer primary key auto increment,
+    user integer not null primary key users(pk)
+);
+"""
+
+[[items]]
+path = "artifacts/"
+
+[[items]]
+path = "artifacts/0.2.0-my-feature/"
+
+[[items]]
+path = "artifacts/0.2.0-my-feature/sqigl.toml"
+lang = "toml"
+content = """
+[[migrations]]
+script = "schema.sql"
+from = "=0.0.0"
+to = "0.2.0-my-feature"
+"""
+
+[[items]]
+path = "artifacts/0.2.0-my-feature/schema.sql"
+checked = true
+lang = "sql"
+content = """
+-- [ my_project 0.2.0-my-feature ]
+
+-- [ users.sql ]
+
+create table users (
+    pk integer primary key auto increment,
+    username text unique not null,
+    password text not null
+);
+
+-- [ posts.sql ]
+
+create table posts (
+    pk integer primary key auto increment,
+    user integer not null primary key users(pk)
+);
+"""

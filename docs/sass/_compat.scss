@@ -1,0 +1,59 @@
+.compat {
+    section {
+        display: grid;
+        grid-template-columns: [title] 1fr [content] 3fr;
+        margin-bottom: 1em;
+        padding: 0.5em;
+        border-radius: 5px;
+        column-gap: 1em;
+
+
+        h1 {
+            grid-row: title;
+            margin: 0;
+            padding: 0;
+            font-size: 1.2em;
+        }
+        article {
+            grid-row: content;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: [title] 1.5em [content] 1fr;
+            column-gap: 1.2em;
+
+            h1 {
+                grid-row: title;
+                font-size: 1em;
+                text-decoration: underline;
+            }
+            ul {
+                grid-row: content;
+                padding: 0;
+                margin: 0;
+                margin-bottom: 1em;
+            }
+            .patch {
+                grid-column: 1;
+            }
+            .minor {
+                grid-column: 2;
+            }
+            .major {
+                grid-column: 3;
+            }
+        }
+    }
+
+    section:nth-child(1) {
+        border-bottom: 1px solid black;
+        margin-bottom: 1em;
+
+        h1:nth-child(2) {
+            grid-column: content;
+        }
+    }
+
+    section:nth-child(even) {
+        background: rgb(100, 100, 100, 0.15);
+    }
+}

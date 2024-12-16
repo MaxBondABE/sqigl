@@ -1,0 +1,41 @@
+.index {
+    display: flex;
+    flex-direction: column;
+
+    ul {
+        margin: 0;
+        margin-left: 2em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin: 0;
+    }
+    article {
+        display: grid;
+        grid-template-columns: [title] 1fr  [desc] 2fr;
+        grid-column-gap: 1em;
+        width: 100%;
+        margin-left: 2em;
+
+        a {
+            grid-column: title;
+            grid-row: 1;
+            align-self: center;
+            font-size: 1.25em;
+        }
+        p {
+            grid-column: desc;
+            grid-row: 1;
+            align-self: center;
+            font-size: 1.5em;
+
+            a {
+                font-size: inherit;
+            }
+        }
+    }
+}
