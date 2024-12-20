@@ -44,6 +44,7 @@ pub fn create_project(
     let mut f = File::create_new(manifest_path)?;
     f.write_all(toml::to_string(&manifest)?.as_bytes())?;
 
+    info!("Project created");
     Ok(())
 }
 
@@ -60,6 +61,8 @@ pub fn new_feature(title: String, info: ProjectInfo) -> anyhow::Result<Version> 
     new_version.pre = Prerelease::new(&title)?;
 
     update_project_version(&new_version, &info)?;
+
+    info!("Switched to feature version {}", &new_version);
     Ok(new_version)
 }
 
@@ -108,6 +111,20 @@ pub fn generate_migration<Db: Backend>(
     let artifact = database.generate_migration(&from_schema, &to_schema)?;
     let title = format!("from_{}.sql", &from);
 
-    save_migration(&title, artifact, info)?;
+    let path = save_migration(&title, artifact, info)?;
+    info!("Generated migration at {:?}", path);
+    Ok(())
+}
+
+pub fn install_sqigl<Db: Backend>(mut database: Db) -> anyhow::Result<()>
+where
+    <Db as Backend>::Error: Sync + Send + 'static,
+{
+    info!("Installing sqigl onto database");
+    let state = database.install()?;
+    info!(
+        "Installed sqigl version {} (project version {})",
+        state.sqigl_version, state.project_version
+    );
     Ok(())
 }

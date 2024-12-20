@@ -138,6 +138,21 @@ pub trait Artifact {
 
         s.to_string()
     }
+    fn print(&self) -> Spec {
+        let (from, to) = self.spec();
+        Spec { from, to }
+    }
+}
+
+pub struct Spec {
+    from: VersionReq,
+    to: Version,
+}
+
+impl Display for Spec {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_fmt(format_args!("{} -> {}", self.from, self.to))
+    }
 }
 
 /// Script consumers can access the code within an artifact.

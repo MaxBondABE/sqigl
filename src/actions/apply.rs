@@ -20,7 +20,7 @@ pub fn apply_artifact<Db: Backend, A: Artifact>(
 where
     <Db as Backend>::Error: Send + Sync + 'static,
 {
-    info!("Applying artifact");
+    info!("Applying migration {}", artifact.print());
 
     let state = database.open()?;
     if !artifact.compatible(&state.project_version) {
@@ -28,7 +28,9 @@ where
             "Cannot apply: The database is not compatible with this artifact."
         ));
     }
-    Ok(database.apply(&artifact)?)
+    let state = database.apply(&artifact)?;
+    info!("Migration complete");
+    Ok(state)
 }
 
 pub fn apply_version<Db: Backend>(
@@ -39,19 +41,14 @@ pub fn apply_version<Db: Backend>(
 where
     <Db as Backend>::Error: Sync + Send + 'static,
 {
-    info!("Applying version {}", &version);
+    info!("Migrating to {}", &version);
 
     let state = database.open()?;
     debug!("Current version: {}", &state.project_version);
 
     let migration_set = MigrationSet::open(info)?;
     if let Some(migration) = migration_set.get(&state.project_version, &version) {
-        info!(
-            "Applying migration {}",
-            migration.script().to_str().unwrap()
-        );
-
-        database.apply(&migration)?;
+        apply_artifact(database, migration)?;
         Ok(())
     } else {
         Err(anyhow!(

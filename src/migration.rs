@@ -25,7 +25,7 @@ pub fn save_migration<A: Artifact>(
     title: &str,
     artifact: A,
     info: &ProjectInfo,
-) -> anyhow::Result<()> {
+) -> anyhow::Result<PathBuf> {
     let (from, to) = artifact.spec();
     trace!("Saving migration {from} -> {to}");
 
@@ -39,7 +39,7 @@ pub fn save_migration<A: Artifact>(
     let migration = artifact::Migration { script, from, to };
     update_artifact_migration(migration, version_dir)?;
 
-    Ok(())
+    Ok(script_path)
 }
 
 pub struct MigrationArtifact {

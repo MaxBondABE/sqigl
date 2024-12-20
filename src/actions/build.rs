@@ -8,7 +8,7 @@ use std::{
     str::from_utf8,
 };
 
-use log::{trace, warn};
+use log::{info, trace, warn};
 use semver::Version;
 use sha2::{Digest, Sha256};
 use thiserror::Error;
@@ -312,6 +312,11 @@ fn process_script_task(
 
 /// Topographically sort the scripts in our project using Kahn's algorithm
 pub fn build_project(info: &ProjectInfo) -> Result<BuildArtifact, BuildError> {
+    info!(
+        "Building {} version {}",
+        info.project.title, info.project.version
+    );
+
     // This is our output. We will be inserting scripts into this list in
     // topographic order.
     let mut scripts = Vec::with_capacity(32);
@@ -331,10 +336,8 @@ pub fn build_project(info: &ProjectInfo) -> Result<BuildArtifact, BuildError> {
     let source_dir = info.source_dir();
     if !source_dir.exists() {
         warn!("No source directory found");
-        return Ok(BuildArtifact {
-            scripts,
-            info: info.clone(),
-        });
+        info!("Build complete");
+        return Ok(BuildArtifact::new(scripts, info));
     };
 
     push_module(
@@ -389,10 +392,8 @@ pub fn build_project(info: &ProjectInfo) -> Result<BuildArtifact, BuildError> {
         debug_assert!(first_time, "A task is never processed twice");
     }
 
-    Ok(BuildArtifact {
-        scripts,
-        info: info.clone(),
-    })
+    info!("Build complete");
+    Ok(BuildArtifact::new(scripts, info))
 }
 
 #[derive(Error, Debug)]
@@ -476,7 +477,22 @@ impl error::Error for DependencyCycle {}
 #[derive(Debug, Clone)]
 pub struct BuildArtifact {
     scripts: Vec<PathBuf>,
-    info: ProjectInfo,
+    version: Version,
+    source_dir: PathBuf,
+    title: String,
+}
+impl BuildArtifact {
+    pub fn new(scripts: Vec<PathBuf>, info: &ProjectInfo) -> Self {
+        Self {
+            scripts,
+            version: info.project.version.clone(),
+            source_dir: info.source_dir(),
+            title: info.project.title.clone(),
+        }
+    }
+    pub fn set_version(&mut self, version: &Version) {
+        self.version = version.clone();
+    }
 }
 impl Artifact for BuildArtifact {
     fn compatible(&self, version: &Version) -> bool {
@@ -485,10 +501,10 @@ impl Artifact for BuildArtifact {
         req.matches(version)
     }
     fn version(&self) -> &Version {
-        &self.info.project.version
+        &self.version
     }
     fn spec(&self) -> (semver::VersionReq, Version) {
-        (from_empty_database(), self.info.project.version.clone())
+        (from_empty_database(), self.version.clone())
     }
 
     fn scripts<Consumer: ScriptConsumer>(
@@ -498,13 +514,12 @@ impl Artifact for BuildArtifact {
         let mut hasher = Sha256::new();
         let mut batch_buffer = Vec::<u8>::with_capacity(1024);
         let mut read_buffer = Vec::<u8>::with_capacity(1024);
-        let source_dir = self.info.source_dir();
 
         write!(
             batch_buffer,
             "-- [ {} {} ]\n\n",
-            self.info.project.title.trim_ascii(),
-            self.info.project.version
+            self.title.trim_ascii(),
+            self.version
         )?;
         let batch = from_utf8(&batch_buffer)?;
         hasher.update(batch);
@@ -518,7 +533,7 @@ impl Artifact for BuildArtifact {
             write!(
                 batch_buffer,
                 "-- [ {} ]\n\n",
-                script.strip_prefix(&source_dir)?.to_str().unwrap()
+                script.strip_prefix(&self.source_dir)?.to_str().unwrap()
             )?;
 
             let mut f = File::open(script)?;

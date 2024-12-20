@@ -12,14 +12,14 @@ use crate::{
 use actions::{
     apply::{apply_artifact, apply_version},
     build::build_project,
-    create::{create_project, generate_migration, new_feature},
+    create::{create_project, generate_migration, install_sqigl, new_feature},
     save::{release, save_project},
 };
 use anyhow::anyhow;
 use artifact::Artifact;
 use backend::{postgres::PostgresBackend, sqlite::SqliteBackend};
 use clap::Parser;
-use log::{debug, info};
+use log::debug;
 use manifest::{
     project::{open_project, Database, ProjectInfo},
     MANIFEST_FILENAME,
@@ -32,11 +32,11 @@ use std::{
     path::PathBuf,
 };
 
-pub mod actions;
-mod arguments;
-pub mod artifact;
+mod actions;
+pub mod arguments;
+mod artifact;
 mod backend;
-pub mod manifest;
+mod manifest;
 mod migration;
 mod util;
 
@@ -103,8 +103,6 @@ fn main() -> anyhow::Result<()> {
             ProjCmd::Feature { title, project } => {
                 let info = open_project(project.canonicalize()?)?;
                 let new_version = new_feature(title, info)?;
-
-                info!("Assigned preliminary version {}", new_version);
             }
             ProjCmd::Build {
                 project,
@@ -149,15 +147,14 @@ fn main() -> anyhow::Result<()> {
                     DatabaseBackend::Postgres(backend) => release(level, &info, backend)?,
                     DatabaseBackend::Sqlite(backend) => release(level, &info, backend)?,
                 };
-                info!("Released version {}", new_version);
             }
         },
         Cmd::Database(cmd) => match cmd {
             DbCmd::Install { project } => {
                 let info = open_project(project)?;
                 match DatabaseBackend::get(&info)? {
-                    DatabaseBackend::Postgres(mut backend) => backend.install()?,
-                    DatabaseBackend::Sqlite(mut backend) => backend.install()?,
+                    DatabaseBackend::Postgres(backend) => install_sqigl(backend)?,
+                    DatabaseBackend::Sqlite(backend) => install_sqigl(backend)?,
                 };
             }
             DbCmd::Apply { version, project } => {
