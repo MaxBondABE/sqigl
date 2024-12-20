@@ -10,7 +10,7 @@ use crate::{
     manifest,
 };
 
-#[derive(Parser, Clone, Debug)]
+#[derive(Parser, Clone, Debug, Serialize, Deserialize)]
 pub struct SqiglArguments {
     /// Level at which to output logs to stderr
     #[arg(long, default_value = "info", env = "SQIGL_LOG_LEVEL")]
@@ -19,7 +19,7 @@ pub struct SqiglArguments {
     pub command: SqiglCommands,
 }
 
-#[derive(ValueEnum, Clone, Copy, Debug)]
+#[derive(ValueEnum, Clone, Copy, Debug, Serialize, Deserialize)]
 pub enum LogLevel {
     Off,
     Trace,
@@ -41,7 +41,7 @@ impl From<LogLevel> for log::LevelFilter {
     }
 }
 
-#[derive(Subcommand, Clone, Debug)]
+#[derive(Subcommand, Clone, Debug, Serialize, Deserialize)]
 pub enum SqiglCommands {
     #[clap(subcommand)]
     Project(ProjectCommands),
@@ -51,7 +51,7 @@ pub enum SqiglCommands {
     Database(DatabaseCommand),
 }
 
-#[derive(Subcommand, Clone, Debug)]
+#[derive(Subcommand, Clone, Debug, Serialize, Deserialize)]
 pub enum ProjectCommands {
     /// Initialize a new project in the current directory.
     #[command()]
@@ -127,7 +127,7 @@ pub enum ProjectCommands {
     },
 }
 
-#[derive(ValueEnum, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(ValueEnum, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub enum DatabaseKind {
     Postgres,
     Sqlite,
@@ -141,7 +141,7 @@ impl From<DatabaseKind> for manifest::project::Database {
     }
 }
 
-#[derive(Subcommand, Clone, Debug)]
+#[derive(Subcommand, Clone, Debug, Serialize, Deserialize)]
 pub enum DatabaseCommand {
     /// Install `sqigl` onto the database.
     Install {
@@ -158,7 +158,7 @@ pub enum DatabaseCommand {
     },
 }
 
-#[derive(ValueEnum, Clone, Copy, Debug)]
+#[derive(ValueEnum, Clone, Copy, Debug, Serialize, Deserialize)]
 pub enum ReleaseLevel {
     Patch,
     Minor,
@@ -182,7 +182,7 @@ impl ReleaseLevel {
     }
 }
 
-#[derive(Subcommand, Clone, Debug)]
+#[derive(Subcommand, Clone, Debug, Serialize, Deserialize)]
 pub enum MigrationCommands {
     /// Create a new, empty migration.
     Create {
@@ -205,4 +205,12 @@ pub enum MigrationCommands {
         #[arg(default_value = ".")]
         project: PathBuf,
     },
+
+    /// Run a migration against an empty database, and roll it back
+    Check {
+    },
+
+    /// Create a new database, and apply the migrations
+    Apply {
+    }
 }

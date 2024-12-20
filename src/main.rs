@@ -77,14 +77,7 @@ impl DatabaseBackend {
     }
 }
 
-fn main() -> anyhow::Result<()> {
-    let args = SqiglArguments::parse();
-    simple_logger::SimpleLogger::new()
-        .with_level(args.log_level.into())
-        .init()
-        .unwrap();
-
-    debug!("sqigl Version: {}", SQIGL_VERSION);
+pub fn run(args: SqiglArguments) -> anyhow::Result<()> {
     match args.command {
         Cmd::Project(cmd) => match cmd {
             ProjCmd::Init { title, database } => {
@@ -195,8 +188,21 @@ fn main() -> anyhow::Result<()> {
                     }
                 };
             }
+            MigrationCommands::Check { ..  } => todo!(),
+            MigrationCommands::Apply { ..  } => todo!(),
         },
     }
 
     Ok(())
+}
+
+fn main() -> anyhow::Result<()> {
+    let args = SqiglArguments::parse();
+    simple_logger::SimpleLogger::new()
+        .with_level(args.log_level.into())
+        .init()
+        .unwrap();
+
+    debug!("sqigl Version: {}", SQIGL_VERSION);
+    run(args)
 }
