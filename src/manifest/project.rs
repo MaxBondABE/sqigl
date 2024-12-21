@@ -69,6 +69,8 @@ pub struct PostgresDatabase {
     pub username: Option<String>,
     pub database: Option<String>,
     pub certificate: Option<PathBuf>,
+    pub statement_timeout: Option<f32>,
+    pub transaction_timeout: Option<f32>
 }
 
 #[derive(Default, Clone, Debug, Serialize, Deserialize)]
